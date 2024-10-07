@@ -93,14 +93,14 @@ int main(int argc, char *argv[]) {
 	gettimeofday(&setup_end, NULL);
 
 	for (int i = 0; i < iteration; i++) {
-		timeval t1, t2;
+		struct timeval t1, t2;
 		gettimeofday(&t1, NULL);
 
 		mul_matrix(m1, m2, result);
 
 		gettimeofday(&t2, NULL);
 
-		double time_diff = get_time_diff(t1, t2);
+		auto time_diff = t2.tv_usec-t1.tv_usec;
 		mean_time += time_diff;
 		times.push_back(time_diff);
 	}
@@ -112,8 +112,8 @@ int main(int argc, char *argv[]) {
 	}
 
 	stand_dev = sqrt(stand_dev);
-	std::cout << "Mean=" << mean_time << "ms ; Standard Deviation=" << stand_dev
-						<< "ms" << std::endl;
+	std::cout << "Mean=" << mean_time << "us ; Standard Deviation=" << stand_dev
+						<< "us" << std::endl;
 
 	return 0;
 }
