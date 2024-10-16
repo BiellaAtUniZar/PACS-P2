@@ -13,3 +13,5 @@ include_directories(${EIGEN3_INCLUDE_DIR})
 
 add_executable(standar_multi src/standard_matrix_multiplication_gtod.cpp)
 add_executable(eigen_multi src/eigen_matrix_multiplication_gtod.cpp)
+add_executable(standar_multi_no_time_measure src/standar_multi.cpp)
+add_executable(eigen_multi_no_time_measure src/eigen_mat_mul_.cpp)

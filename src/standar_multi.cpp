@@ -80,83 +80,24 @@ int main(int argc, char *argv[])
 	// End instrumentation
 
 	int SIZE;
-	bool AUTO_MODE = argc != 3;
-	int iteration;
+	bool AUTO_MODE = argc != 2;
 	if (AUTO_MODE)
 	{
-		iteration = 10;
 		SIZE = 10;
 	}
 	else
 	{
 		SIZE = stoi(argv[1]); // Parses parameter, throws exception if not int
-		iteration = stoi(argv[2]);
 	}
-
-	float mean_setup_time = 0;
-	std::vector<float> setup_times;
-	for (int i = 0; i < iteration; i++)
-	{
-
-		timeval setup_start, setup_end;
-		gettimeofday(&setup_start, NULL);
-		// Fills matrices
-		Mat m1(SIZE, Row(SIZE, 0.));
-		Mat m2(SIZE, Row(SIZE, 0.));
-		Mat result(SIZE, Row(SIZE, 0.));
-		fill_matrix(m1);
-		fill_matrix(m2);
-		gettimeofday(&setup_end, NULL);
-		// setup time
-		auto ssec_diff = setup_end.tv_sec * 1. + setup_end.tv_usec * (1e-6) - (setup_start.tv_sec * 1. + setup_start.tv_usec * (1e-6));
-		ssec_diff *= 1000.;
-		mean_setup_time += ssec_diff;
-		setup_times.push_back(ssec_diff);
-	}
-
-	mean_setup_time /= iteration * 1.;
-	double stand_dev_setup = 0.;
-	for (size_t i = 0; i < setup_times.size(); i++)
-	{
-		stand_dev_setup += (setup_times[i] - mean_setup_time) * (setup_times[i] - mean_setup_time) / setup_times.size() * 1.0;
-	}
-	stand_dev_setup = sqrt(stand_dev_setup);
-	std::cout << "Setup=  " << mean_setup_time << "ms ; Standard Deviation=  " << stand_dev_setup
-			  << "ms" << std::endl;
-
+    
 	// matrix multiplication
-
-	// measure performance time for mat mul
-	float mean_exec_time = 0;
-	// Fills matrices
 	Mat m1(SIZE, Row(SIZE, 0.));
 	Mat m2(SIZE, Row(SIZE, 0.));
 	Mat result(SIZE, Row(SIZE, 0.));
-	fill_matrix(m1);
+    fill_matrix(m1);
 	fill_matrix(m2);
-	std::vector<float> exec_times;
-	for (int i = 0; i < iteration; i++)
-	{
-		timeval t1, t2;
-		gettimeofday(&t1, NULL);
-		mul_matrix(m1, m2, result);
-		gettimeofday(&t2, NULL);
-		auto sec_diff = t2.tv_sec * 1. + t2.tv_usec * (1e-6) - (t1.tv_sec * 1. + t1.tv_usec * (1e-6));
-		sec_diff *= 1000.;
-		mean_exec_time += sec_diff;
-		exec_times.push_back(sec_diff);
-	}
-
-	mean_exec_time /= iteration * 1.;
-	double stand_dev = 0.;
-	for (size_t i = 0; i < exec_times.size(); i++)
-	{
-		stand_dev +=
-			(exec_times[i] - mean_exec_time) * (exec_times[i] - mean_exec_time) / exec_times.size() * 1.0;
-	}
-	stand_dev = sqrt(stand_dev);
-	std::cout << "Exec=  " << mean_exec_time << "ms ; Standard Deviation=  " << stand_dev
-			  << "ms" << std::endl;
+    mul_matrix(m1, m2, result);
+ 
 
 	return 0;
 }
