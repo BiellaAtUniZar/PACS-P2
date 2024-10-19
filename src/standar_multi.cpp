@@ -91,13 +91,19 @@ int main(int argc, char *argv[])
 	}
     
 	// matrix multiplication
+	timeval setup_start, setup_end;
+	gettimeofday(&setup_start, NULL);
 	Mat m1(SIZE, Row(SIZE, 0.));
 	Mat m2(SIZE, Row(SIZE, 0.));
 	Mat result(SIZE, Row(SIZE, 0.));
     fill_matrix(m1);
 	fill_matrix(m2);
+	gettimeofday(&setup_end, NULL);
+
+	timeval t1, t2;
+	gettimeofday(&t1, NULL);
     mul_matrix(m1, m2, result);
- 
+	gettimeofday(&t2, NULL);
 
 	return 0;
 }

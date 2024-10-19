@@ -50,11 +50,20 @@ int main(int argc, char *argv[]) {
 		SIZE = stoi(argv[1]); // Parses parameter, throws exception if not int
 	}
 	// Fills matrices
+	timeval setup_start, setup_end;
+	gettimeofday(&setup_start, NULL);
 	Mat m1 = fill_matrix(SIZE);
 	Mat m2 = fill_matrix(SIZE);
+	gettimeofday(&setup_end, NULL);
+	// setup time
+	auto ssec_diff = setup_end.tv_sec * 1. + setup_end.tv_usec * (1e-6) - (setup_start.tv_sec * 1. + setup_start.tv_usec * (1e-6));
+	ssec_diff *= 1000.;
 	///matrix multiplication
+	timeval t1, t2;
+	gettimeofday(&t1, NULL);
     Mat result = mul_matrix(m1, m2);
-
-
+	gettimeofday(&t2, NULL);
+	auto sec_diff = t2.tv_sec * 1. + t2.tv_usec * (1e-6) - (t1.tv_sec * 1. + t1.tv_usec * (1e-6));
+	sec_diff *= 1000.;
 	return 0;
 }
