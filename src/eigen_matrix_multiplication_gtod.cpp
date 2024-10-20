@@ -29,18 +29,8 @@ Mat mul_matrix(Mat mat1, Mat mat2) { return mat1 * mat2; }
 
 void print_matrix(Mat mat1) { std::cout << mat1 << std::endl; }
 
-/**
- * Function to get time difference in milliseconds
- */
-double get_time_diff(const timeval& start, const timeval& end) {
-		return (end.tv_sec - start.tv_sec) * 1000.0 + (end.tv_usec - start.tv_usec) / 1000.0;
-}
 
 int main(int argc, char *argv[]) {
-	//Begin instrumentation
- 
-  	//End instrumentation
-
 
 	int SIZE;
 	bool AUTO_MODE = argc != 3;
